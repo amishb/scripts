@@ -1,0 +1,26 @@
+#!/bin/bash
+#
+#
+
+
+incoming="/mounts/media/incoming/automatic/"
+
+# incoming="$1"
+outputpath="/mounts/media"
+outgoingtv="/mounts/media/tv"
+outgoingmovies="/mounts/media/movies"
+
+
+filebot -script fn:amc \
+    --output "${outputpath}" \
+    --log-file amc.log \
+    --action copy \
+    -non-strict \
+    "${incoming}" \
+    --conflict auto \
+    --def subtitles=en \
+    --def excludeList=amc.txt \
+    --def clean=y \
+    --def skipExtract=y \
+    --def "seriesFormat=${outgoingtv}/{n}/Season.{s.pad(2)}/{n.upperInitial().space('.').replaceAll(/[,!?.]+$/)}.{s.pad(2)}x{e.pad(2)}.{t.upperInitial().space('.').replaceAll(/[,]+/)}" \
+    --def "movieFormat=${outgoingmovies}/{n.upperInitial().space('.').replaceAll(/[,!?.]+$/)}.[{y}]/{n.upperInitial().space('.').replaceAll(/[,!?.]+$/)}.[{y}]{[vf.match(/720[pP]|1080[pP]/)]}{[source]}{[ac]}"
